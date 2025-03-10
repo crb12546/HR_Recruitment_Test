@@ -20,9 +20,10 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8  # 8天
     
     # 数据库配置
+    # 开发环境使用SQLite，生产环境使用MySQL
     DATABASE_URL: str = os.getenv(
         "DATABASE_URL", 
-        "postgresql://postgres:postgres@localhost:5432/hr_recruitment"
+        "sqlite:///./hr_recruitment.db"
     )
     
     # CORS配置
