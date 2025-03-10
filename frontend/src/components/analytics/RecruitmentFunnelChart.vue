@@ -44,6 +44,7 @@
 import { ref, onMounted, onUnmounted, watch } from 'vue';
 import * as echarts from 'echarts';
 import { ElMessage } from 'element-plus';
+import analyticsApi from '@/api/analytics';
 
 export default {
   name: 'RecruitmentFunnelChart',
@@ -114,24 +115,16 @@ export default {
         };
         
         // 调用API获取漏斗数据
-        // const response = await api.getRecruitmentFunnelData(params);
+        const response = await analyticsApi.getFunnelData(params);
         
-        // 模拟API响应
-        await new Promise(resolve => setTimeout(resolve, 800));
-        const response = {
-          data: [
-            { name: '简历投递', value: 1200 },
-            { name: '简历筛选', value: 800 },
-            { name: '初试', value: 400 },
-            { name: '复试', value: 200 },
-            { name: '终试', value: 100 },
-            { name: '录用', value: 80 },
-            { name: '入职', value: 60 }
-          ]
-        };
+        // 转换数据格式
+        const data = response.data.data.map(item => ({
+          name: item.stage,
+          value: item.count
+        }));
         
         // 设置漏斗数据
-        funnelData.value = response.data;
+        funnelData.value = data;
         
         // 更新图表
         updateChart();

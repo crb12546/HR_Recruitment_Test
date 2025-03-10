@@ -104,6 +104,7 @@ import RecruitmentFunnelChart from '@/components/analytics/RecruitmentFunnelChar
 import ChannelEffectivenessChart from '@/components/analytics/ChannelEffectivenessChart.vue';
 import CandidateProgressChart from '@/components/analytics/CandidateProgressChart.vue';
 import DataExporter from '@/components/analytics/DataExporter.vue';
+import analyticsApi from '@/api/analytics';
 
 export default {
   name: 'AnalyticsDashboard',
@@ -143,45 +144,10 @@ export default {
         };
         
         // 调用API获取汇总统计
-        // const response = await api.getSummaryStats(params);
-        
-        // 模拟API响应
-        await new Promise(resolve => setTimeout(resolve, 500));
-        const response = {
-          data: [
-            {
-              title: '简历总数',
-              value: '1,256',
-              trend: 12.5,
-              icon: 'Document',
-              type: 'primary'
-            },
-            {
-              title: '面试人数',
-              value: '328',
-              trend: 8.3,
-              icon: 'User',
-              type: 'success'
-            },
-            {
-              title: '平均招聘周期',
-              value: '18天',
-              trend: -5.2,
-              icon: 'Timer',
-              type: 'warning'
-            },
-            {
-              title: 'Offer接受率',
-              value: '85%',
-              trend: 3.8,
-              icon: 'Check',
-              type: 'info'
-            }
-          ]
-        };
+        const response = await analyticsApi.getSummaryStats(params);
         
         // 设置汇总统计
-        summaryStats.value = response.data;
+        summaryStats.value = response.data.data;
       } catch (error) {
         console.error('获取汇总统计失败:', error);
         ElMessage.error('获取汇总统计失败，请重试');
