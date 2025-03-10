@@ -1,42 +1,45 @@
 """
-主应用入口
+主应用程序模块
 """
-import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.api import api_router
 from app.core.config import settings
+from app.core.errors import register_exception_handlers
 
-# 配置日志
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-)
-logger = logging.getLogger("hr_recruitment")
+def create_app() -> FastAPI:
+    """创建FastAPI应用"""
+    app = FastAPI(
+        title=settings.PROJECT_NAME,
+        description=settings.PROJECT_DESCRIPTION,
+        version=settings.PROJECT_VERSION,
+        openapi_url=f"{settings.API_V1_STR}/openapi.json",
+    )
 
-app = FastAPI(
-    title=settings.PROJECT_NAME,
-    description=settings.PROJECT_DESCRIPTION,
-    version=settings.PROJECT_VERSION,
-)
+    # 设置CORS
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=settings.CORS_ORIGINS,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
-# 配置CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+    # 注册路由
+    app.include_router(api_router, prefix=settings.API_V1_STR)
 
-# 包含API路由
-app.include_router(api_router)
+    # 注册异常处理器
+    register_exception_handlers(app)
 
-@app.get("/")
-async def root():
-    """健康检查端点"""
-    return {"message": "HR招聘系统API服务正常运行"}
+    # 健康检查端点
+    @app.get("/api/health")
+    def health_check():
+        return {
+            "status": "ok",
+            "message": "HR招聘系统API服务正常运行",
+            "path": "/api/health"
+        }
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
+    return app
+
+app = create_app()
