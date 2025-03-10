@@ -1,0 +1,42 @@
+[
+  {
+    "name": "张三",
+    "gender": "男",
+    "age": 28,
+    "phone": "13800138001",
+    "email": "zhangsan@example.com",
+    "education": "本科",
+    "university": "北京大学",
+    "major": "计算机科学与技术",
+    "experience": "5年",
+    "skills": [
+      "Python",
+      "FastAPI",
+      "MySQL",
+      "Redis",
+      "Docker"
+    ],
+    "self_evaluation": "有丰富的后端开发经验，熟悉分布式系统设计",
+    "created_at": "2025-03-10T15:27:59.443309"
+  },
+  {
+    "name": "李四",
+    "gender": "女",
+    "age": 26,
+    "phone": "13800138002",
+    "email": "lisi@example.com",
+    "education": "硕士",
+    "university": "清华大学",
+    "major": "软件工程",
+    "experience": "3年",
+    "skills": [
+      "JavaScript",
+      "Vue.js",
+      "React",
+      "HTML",
+      "CSS"
+    ],
+    "self_evaluation": "有良好的前端开发经验，熟悉现代前端框架",
+    "created_at": "2025-03-10T15:27:59.443314"
+  }
+]
