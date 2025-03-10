@@ -1,0 +1,78 @@
+[
+  {
+    "job_id": 1,
+    "position_name": "Python后端开发工程师",
+    "department": "技术部",
+    "candidates": [
+      {
+        "job_id": 1,
+        "resume_id": 1,
+        "position_name": "Python后端开发工程师",
+        "candidate_name": "张三",
+        "match_score": 85,
+        "match_explanation": "候选人技能与职位要求高度匹配",
+        "created_at": "2025-03-10T15:27:59.443506"
+      },
+      {
+        "job_id": 1,
+        "resume_id": 2,
+        "position_name": "Python后端开发工程师",
+        "candidate_name": "李四",
+        "match_score": 60,
+        "match_explanation": "候选人基本符合职位要求，但匹配度一般",
+        "created_at": "2025-03-10T15:27:59.443514"
+      }
+    ],
+    "recruitment_strategy": "针对Python后端开发工程师职位的招聘策略",
+    "interview_questions": [
+      "请介绍一下你的工作经历",
+      "你认为自己最大的优势是什么",
+      "你对我们公司了解多少"
+    ],
+    "timeline": {
+      "resume_screening": "1周",
+      "first_interview": "2周",
+      "second_interview": "3周",
+      "offer": "4周"
+    },
+    "created_at": "2025-03-10T15:27:59.443761"
+  },
+  {
+    "job_id": 2,
+    "position_name": "前端开发工程师",
+    "department": "技术部",
+    "candidates": [
+      {
+        "job_id": 2,
+        "resume_id": 2,
+        "position_name": "前端开发工程师",
+        "candidate_name": "李四",
+        "match_score": 80,
+        "match_explanation": "候选人技能与职位要求匹配度较高",
+        "created_at": "2025-03-10T15:27:59.443519"
+      },
+      {
+        "job_id": 2,
+        "resume_id": 1,
+        "position_name": "前端开发工程师",
+        "candidate_name": "张三",
+        "match_score": 60,
+        "match_explanation": "候选人基本符合职位要求，但匹配度一般",
+        "created_at": "2025-03-10T15:27:59.443517"
+      }
+    ],
+    "recruitment_strategy": "针对前端开发工程师职位的招聘策略",
+    "interview_questions": [
+      "请介绍一下你的工作经历",
+      "你认为自己最大的优势是什么",
+      "你对我们公司了解多少"
+    ],
+    "timeline": {
+      "resume_screening": "1周",
+      "first_interview": "2周",
+      "second_interview": "3周",
+      "offer": "4周"
+    },
+    "created_at": "2025-03-10T15:27:59.443769"
+  }
+]

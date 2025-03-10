@@ -1,0 +1,38 @@
+[
+  {
+    "job_id": 1,
+    "resume_id": 1,
+    "position_name": "Python后端开发工程师",
+    "candidate_name": "张三",
+    "match_score": 85,
+    "match_explanation": "候选人技能与职位要求高度匹配",
+    "created_at": "2025-03-10T15:27:59.443506"
+  },
+  {
+    "job_id": 1,
+    "resume_id": 2,
+    "position_name": "Python后端开发工程师",
+    "candidate_name": "李四",
+    "match_score": 60,
+    "match_explanation": "候选人基本符合职位要求，但匹配度一般",
+    "created_at": "2025-03-10T15:27:59.443514"
+  },
+  {
+    "job_id": 2,
+    "resume_id": 1,
+    "position_name": "前端开发工程师",
+    "candidate_name": "张三",
+    "match_score": 60,
+    "match_explanation": "候选人基本符合职位要求，但匹配度一般",
+    "created_at": "2025-03-10T15:27:59.443517"
+  },
+  {
+    "job_id": 2,
+    "resume_id": 2,
+    "position_name": "前端开发工程师",
+    "candidate_name": "李四",
+    "match_score": 80,
+    "match_explanation": "候选人技能与职位要求匹配度较高",
+    "created_at": "2025-03-10T15:27:59.443519"
+  }
+]

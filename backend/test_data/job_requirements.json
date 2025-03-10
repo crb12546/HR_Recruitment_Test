@@ -1,0 +1,24 @@
+[
+  {
+    "position_name": "Python后端开发工程师",
+    "department": "技术部",
+    "location": "北京",
+    "salary_range": "20k-30k",
+    "experience": "3-5年",
+    "education": "本科及以上",
+    "description": "负责公司核心业务系统的开发和维护",
+    "requirements": "熟练掌握Python编程语言，熟悉FastAPI或Flask框架",
+    "created_at": "2025-03-10T15:27:59.443107"
+  },
+  {
+    "position_name": "前端开发工程师",
+    "department": "技术部",
+    "location": "上海",
+    "salary_range": "15k-25k",
+    "experience": "2-4年",
+    "education": "本科及以上",
+    "description": "负责公司Web前端开发和维护",
+    "requirements": "熟练掌握HTML、CSS、JavaScript，熟悉Vue.js或React框架",
+    "created_at": "2025-03-10T15:27:59.443114"
+  }
+]

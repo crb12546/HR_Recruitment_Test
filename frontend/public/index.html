@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HR招聘系统</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    .header { background-color: #4CAF50; color: white; padding: 20px; text-align: center; }
+    .content { max-width: 800px; margin: 0 auto; padding: 20px; }
+    .nav { background-color: #333; overflow: hidden; }
+    .nav a { float: left; color: white; text-align: center; padding: 14px 16px; text-decoration: none; }
+    .nav a:hover { background-color: #ddd; color: black; }
+    .card { box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); padding: 16px; margin: 16px 0; }
+    button { background-color: #4CAF50; color: white; border: none; padding: 10px 20px; text-align: center; 
+             text-decoration: none; display: inline-block; font-size: 16px; margin: 10px 0; cursor: pointer; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>HR招聘系统</h1>
+  </div>
+  <div class="nav">
+    <a href="#home">首页</a>
+    <a href="#jobs">招聘需求</a>
+    <a href="#resumes">简历管理</a>
+    <a href="#matches">需求匹配</a>
+    <a href="#plans">招聘方案</a>
+    <a href="#analytics">数据分析</a>
+  </div>
+  <div class="content">
+    <h2>系统状态</h2>
+    <div class="card">
+      <p>前端服务器正常运行</p>
+      <div id="status">正在连接后端服务...</div>
+      <button onclick="checkBackend()">检查后端状态</button>
+    </div>
+    
+    <h2>功能模块</h2>
+    <div class="card">
+      <h3>招聘需求管理</h3>
+      <p>上传和管理招聘需求，自动解析职位描述</p>
+    </div>
+    <div class="card">
+      <h3>简历库管理</h3>
+      <p>上传和管理简历，自动解析简历内容</p>
+    </div>
+    <div class="card">
+      <h3>简历与需求匹配</h3>
+      <p>自动匹配简历与职位需求，计算匹配度</p>
+    </div>
+    <div class="card">
+      <h3>招聘方案生成</h3>
+      <p>基于匹配结果生成招聘方案</p>
+    </div>
+    <div class="card">
+      <h3>数据分析与报告</h3>
+      <p>生成招聘数据分析报告，包括招聘漏斗、渠道效果等</p>
+    </div>
+  </div>
+
+  <script>
+    function checkBackend() {
+      document.getElementById('status').innerHTML = '正在连接后端服务...';
+      fetch('http://localhost:8001/')
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('status').innerHTML = 
+            `后端服务状态: ${data.message || JSON.stringify(data)}`;
+        })
+        .catch(error => {
+          document.getElementById('status').innerHTML = 
+            `后端服务连接失败: ${error.message}`;
+        });
+    }
+    // 页面加载时检查
+    checkBackend();
+  </script>
+</body>
+</html>

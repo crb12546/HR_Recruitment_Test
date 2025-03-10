@@ -1,78 +1,60 @@
 /**
- * API服务主模块
- * 配置Axios实例和请求拦截器
+ * API服务基础配置
  */
-import axios from 'axios';
-import { ElMessage } from 'element-plus';
+import axios from 'axios'
 
 // 创建axios实例
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000',
-  timeout: 15000,
+  baseURL: 'http://localhost:8001/api',
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json'
   }
-});
+})
 
 // 请求拦截器
 apiClient.interceptors.request.use(
   config => {
     // 从localStorage获取token
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token')
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+      config.headers['Authorization'] = `Bearer ${token}`
     }
-    return config;
+    return config
   },
   error => {
-    console.error('请求错误:', error);
-    return Promise.reject(error);
+    console.error('请求错误:', error)
+    return Promise.reject(error)
   }
-);
+)
 
 // 响应拦截器
 apiClient.interceptors.response.use(
   response => {
-    return response;
+    return response.data
   },
   error => {
     // 处理错误响应
-    const { response } = error;
-    
-    if (response) {
+    if (error.response) {
       // 服务器返回错误
-      const { status, data } = response;
+      console.error('响应错误:', error.response.status, error.response.data)
       
-      switch (status) {
-        case 400:
-          ElMessage.error(data.detail || '请求参数错误');
-          break;
-        case 401:
-          ElMessage.error('未授权，请重新登录');
-          // 清除token并跳转到登录页
-          localStorage.removeItem('token');
-          window.location.href = '/login';
-          break;
-        case 403:
-          ElMessage.error('没有权限访问该资源');
-          break;
-        case 404:
-          ElMessage.error('请求的资源不存在');
-          break;
-        case 500:
-          ElMessage.error('服务器错误，请稍后再试');
-          break;
-        default:
-          ElMessage.error(`请求失败: ${data.detail || '未知错误'}`);
+      // 处理401未授权错误
+      if (error.response.status === 401) {
+        localStorage.removeItem('token')
+        window.location.href = '/login'
       }
+    } else if (error.request) {
+      // 请求发送但没有收到响应
+      console.error('请求错误:', '服务器未响应')
     } else {
-      // 网络错误或请求被取消
-      ElMessage.error('网络错误，请检查您的网络连接');
+      // 请求配置错误
+      console.error('请求配置错误:', error.message)
     }
     
-    return Promise.reject(error);
+    return Promise.reject(error)
   }
-);
+)
 
-export default apiClient;
+export default apiClient
