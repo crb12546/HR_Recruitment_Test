@@ -8,5 +8,5 @@ module.exports = {
       }
     }
   },
-  transpileDependencies: true
+  transpileDependencies: []
 }

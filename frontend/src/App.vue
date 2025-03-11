@@ -4,15 +4,7 @@
       <h1>HR招聘系统</h1>
     </header>
     <div class="content">
-      <h2>系统状态</h2>
-      <p>前端服务器正常运行</p>
-      <div v-if="backendStatus">
-        <p>后端服务状态: {{ backendStatus }}</p>
-      </div>
-      <div v-else>
-        <p>正在连接后端服务...</p>
-      </div>
-      <button @click="checkBackend">检查后端状态</button>
+      <router-view></router-view>
     </div>
   </div>
 </template>
