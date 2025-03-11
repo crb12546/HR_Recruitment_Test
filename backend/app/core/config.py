@@ -3,7 +3,7 @@
 """
 import os
 from typing import List
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     """应用配置类"""
@@ -39,6 +39,9 @@ class Settings(BaseSettings):
     
     # 环境配置
     ENV: str = os.getenv("ENV", "development")
+    
+    # 服务配置
+    MOCK_SERVICES: bool = os.getenv("MOCK_SERVICES", "False").lower() == "true"
     
     class Config:
         env_file = ".env"

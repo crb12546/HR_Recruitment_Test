@@ -28,8 +28,12 @@ class ResumeBase(BaseModel):
 
 class ResumeCreate(BaseModel):
     """创建简历模型"""
-    candidate_name: Optional[str] = Field(None, description="候选人姓名")
+    candidate_name: str = Field(..., description="候选人姓名")
+    file_url: str = Field(..., description="文件URL")
     file_type: str = Field(..., description="文件类型")
+    ocr_content: Optional[str] = Field(None, description="OCR识别内容")
+    parsed_content: Optional[str] = Field(None, description="解析后内容")
+    talent_portrait: Optional[str] = Field(None, description="人才画像")
 
 class ResumeUpdate(BaseModel):
     """更新简历模型"""

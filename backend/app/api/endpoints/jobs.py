@@ -223,7 +223,7 @@ def delete_job_requirement(
     *,
     db: Session = Depends(get_db),
     job_id: int
-) -> Any:
+):
     """
     删除招聘需求
     """
@@ -243,8 +243,6 @@ def delete_job_requirement(
         
         # 记录成功删除
         logger.info(f"成功删除招聘需求: ID={job_id}")
-        
-        return None
         
     except HTTPException:
         raise

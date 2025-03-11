@@ -187,7 +187,7 @@ def delete_match(
     *,
     db: Session = Depends(get_db),
     match_id: int
-) -> Any:
+):
     """
     删除匹配
     """
@@ -207,8 +207,6 @@ def delete_match(
         
         # 记录成功删除
         logger.info(f"成功删除匹配: ID={match_id}")
-        
-        return None
         
     except HTTPException:
         raise
