@@ -32,8 +32,11 @@ class AIService:
         lines = ocr_content.split("\n")
         
         for line in lines:
+            line = line.strip()
             if "：" in line:
                 key, value = line.split("：", 1)
+                key = key.strip()
+                value = value.strip()
                 if key == "姓名":
                     parsed_content["name"] = value
                 elif key == "学历":
@@ -79,10 +82,16 @@ class AIService:
         # 根据简历内容选择相关标签
         selected_tags = []
         for tag in default_tags:
-            if tag.lower() in resume_content.lower() or len(selected_tags) < 3:
+            if tag.lower() in resume_content.lower():
                 selected_tags.append(tag)
-                if len(selected_tags) >= 5:  # 最多返回5个标签
-                    break
+        
+        # 确保至少有一些标签
+        if len(selected_tags) < 3:
+            for tag in default_tags:
+                if tag not in selected_tags:
+                    selected_tags.append(tag)
+                    if len(selected_tags) >= 5:
+                        break
         
         return selected_tags
     

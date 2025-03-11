@@ -206,7 +206,7 @@ def delete_plan(
     *,
     db: Session = Depends(get_db),
     plan_id: int
-) -> Any:
+):
     """
     删除招聘方案
     """
@@ -226,8 +226,6 @@ def delete_plan(
         
         # 记录成功删除
         logger.info(f"成功删除招聘方案: ID={plan_id}")
-        
-        return None
         
     except HTTPException:
         raise

@@ -110,6 +110,56 @@ async def upload_resume(
             detail=f"上传简历失败: {str(e)}"
         )
 
+@router.post("", response_model=ResumeSchema, status_code=status.HTTP_201_CREATED)
+def create_resume(
+    *,
+    db: Session = Depends(get_db),
+    resume_in: ResumeCreate
+) -> Any:
+    """
+    创建简历
+    """
+    try:
+        # 记录请求数据
+        logger.info(f"创建简历请求: 候选人={resume_in.candidate_name}")
+        
+        # 创建简历记录
+        resume = Resume(
+            candidate_name=resume_in.candidate_name,
+            file_url=resume_in.file_url,
+            file_type=resume_in.file_type,
+            ocr_content=resume_in.ocr_content,
+            parsed_content=resume_in.parsed_content,
+            talent_portrait=resume_in.talent_portrait
+        )
+        
+        # 保存到数据库
+        db.add(resume)
+        if not safe_commit(db, "创建简历记录失败"):
+            raise HTTPException(status_code=500, detail="数据库保存失败")
+        
+        db.refresh(resume)
+        
+        # 记录成功创建
+        logger.info(f"成功创建简历记录: ID={resume.id}, 候选人={resume.candidate_name}")
+        
+        return resume
+        
+    except HTTPException:
+        raise
+    except SQLAlchemyError as e:
+        logger.error(f"数据库错误: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"数据库操作失败: {str(e)}"
+        )
+    except Exception as e:
+        logger.error(f"创建简历失败: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"创建简历失败: {str(e)}"
+        )
+
 @router.get("", response_model=List[ResumeSchema])
 def read_resumes(
     *,
@@ -207,7 +257,7 @@ def update_resume(
             )
         
         # 更新字段
-        update_data = resume_in.dict(exclude_unset=True)
+        update_data = resume_in.model_dump(exclude_unset=True)
         
         # 应用更新
         for field, value in update_data.items():
@@ -244,7 +294,7 @@ def delete_resume(
     *,
     db: Session = Depends(get_db),
     resume_id: int
-) -> Any:
+):
     """
     删除简历
     """
@@ -264,8 +314,6 @@ def delete_resume(
         
         # 记录成功删除
         logger.info(f"成功删除简历: ID={resume_id}")
-        
-        return None
         
     except HTTPException:
         raise
