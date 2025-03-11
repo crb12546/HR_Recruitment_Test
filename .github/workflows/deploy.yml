@@ -1,0 +1,53 @@
+---
+name: 部署到Fly.io
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+      - 'docker-compose.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: 设置Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+      - name: 构建前端
+        working-directory: ./frontend
+        run: |
+          npm install --legacy-peer-deps
+          npm run build
+      - name: 设置Flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: 部署到Fly.io
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: |
+          # 创建fly.toml配置文件
+          cat > fly.toml << EOL
+          app = "hr-recruitment-system"
+          [build]
+            dockerfile = "backend/Dockerfile"
+          [env]
+            ENV = "production"
+            DATABASE_URL = "${{ secrets.DATABASE_URL }}"
+            SECRET_KEY = "${{ secrets.SECRET_KEY }}"
+            OPENAI_API_KEY = "${{ secrets.OPENAI_API_KEY }}"
+          [http_service]
+            internal_port = 8001
+            force_https = true
+            auto_stop_machines = true
+            auto_start_machines = true
+            min_machines_running = 0
+          EOL
+          # 部署应用
+          flyctl deploy --remote-only
