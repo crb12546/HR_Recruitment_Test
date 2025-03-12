@@ -237,16 +237,29 @@ kill -9 <进程ID>
   ```bash
   cd backend
   python -m pytest tests/
+  # 或使用测试脚本
+  ../run_tests.sh
   ```
 
 - 前端测试：
   ```bash
   cd frontend
-  npm run test
+  npm test
+  # 或使用测试脚本
+  ../run_tests.sh
   ```
+
+- 一键运行所有测试：
+  ```bash
+  # 在项目根目录下
+  ./run_tests.sh
+  ```
+
+详细的测试流程和最佳实践请参考 [本地测试方案文档](./local_testing.md)。
 
 ## 文档历史
 
 | 版本 | 日期 | 变更说明 | 作者 |
 |------|------|---------|------|
 | 1.0 | 2025-03-11 | 初始版本 | Devin |
+| 1.1 | 2025-03-12 | 更新测试部分，添加本地测试脚本说明 | Devin |
