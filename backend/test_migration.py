@@ -39,11 +39,35 @@ def test_migration():
         print("\n重新应用迁移...")
         command.upgrade(alembic_cfg, "head")
         
+        # 验证数据库表结构
+        print("\n验证数据库表结构...")
+        verify_database_tables()
+        
         print("\n数据库迁移测试成功")
         return True
     except Exception as e:
         print(f"数据库迁移测试失败: {e}")
         return False
+
+def verify_database_tables():
+    """验证数据库表结构是否与模型定义一致"""
+    from sqlalchemy import inspect
+    from app.db.session import engine
+    from app.models import Base
+    
+    inspector = inspect(engine)
+    tables = inspector.get_table_names()
+    
+    # 检查所有模型对应的表是否存在
+    model_tables = [model.__tablename__ for model in Base.__subclasses__()]
+    missing_tables = [table for table in model_tables if table not in tables]
+    
+    if missing_tables:
+        print(f"警告：以下表未创建: {missing_tables}")
+        return False
+    
+    print(f"所有表已创建: {tables}")
+    return True
 
 if __name__ == "__main__":
     test_migration()
