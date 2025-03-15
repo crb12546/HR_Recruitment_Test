@@ -259,6 +259,54 @@ class AIService:
                 "explanation": f"匹配评估失败: {str(e)}"
             }
     
+    def parse_job_requirement(self, document_content: str) -> Dict[str, Any]:
+        """解析招聘需求文档"""
+        logger.info("开始解析招聘需求文档")
+        
+        # 如果文档内容为空，返回空结果
+        if not document_content:
+            logger.warning("文档内容为空，无法解析招聘需求")
+            return {}
+        
+        try:
+            # 构建提示词
+            prompt = f"""
+            请解析以下招聘需求文档，提取关键信息，并以JSON格式返回。
+            需要提取的字段包括：
+            - position_name: 职位名称
+            - department: 部门
+            - responsibilities: 工作职责（详细描述）
+            - requirements: 任职要求（详细描述）
+            - salary_range: 薪资范围
+            - location: 工作地点
+            
+            招聘需求文档内容：
+            {document_content}
+            """
+            
+            # 调用GPT-4O API
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=[
+                    {"role": "system", "content": "你是一位专业的HR招聘助手，擅长解析招聘需求文档。"},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=0.3,
+                max_tokens=1000,
+                response_format={"type": "json_object"}
+            )
+            
+            # 解析JSON响应
+            content = response.choices[0].message.content
+            parsed_content = json.loads(content)
+            
+            logger.info(f"招聘需求解析成功: {parsed_content.get('position_name', '未知')}")
+            return parsed_content
+            
+        except Exception as e:
+            logger.error(f"招聘需求解析失败: {str(e)}")
+            return {}
+    
     def generate_recruitment_plan(self, job_requirement: Dict[str, Any], matched_resumes: List[Dict[str, Any]]) -> Dict[str, Any]:
         """生成招聘方案"""
         logger.info("开始生成招聘方案")

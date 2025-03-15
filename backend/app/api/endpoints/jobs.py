@@ -9,14 +9,55 @@ import logging
 import json
 from app.db.session import get_db
 from app.models.job_requirement import JobRequirement
-from app.schemas.job import Job, JobCreate, JobUpdate
-from app.services.service_factory import get_ai_service
+from app.schemas.job import Job, JobCreate, JobUpdate, JobParseResult
+from app.services.service_factory import get_ai_service, get_file_service
 from app.utils.db_utils import safe_commit
 
 # 获取日志记录器
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
+
+@router.post("/parse", response_model=JobParseResult)
+async def parse_job_requirement_document(
+    *,
+    file: UploadFile = File(...)
+) -> Any:
+    """
+    解析招聘需求文档（不保存到数据库）
+    """
+    try:
+        # 记录请求数据
+        logger.info(f"解析招聘需求文档请求: 文件名={file.filename}")
+        
+        # 读取文件内容
+        content = await file.read()
+        content_str = content.decode("utf-8", errors="ignore")
+        
+        # 初始化AI服务
+        ai_service = get_ai_service()
+        
+        # 解析文档内容
+        parsed_content = ai_service.parse_job_requirement(content_str)
+        
+        # 提取职位标签
+        job_description = f"{parsed_content.get('position_name', '')}\n{parsed_content.get('responsibilities', '')}\n{parsed_content.get('requirements', '')}"
+        tags = ai_service.extract_job_tags(job_description)
+        
+        # 添加标签到解析结果
+        parsed_content["tags"] = tags
+        
+        # 记录成功解析
+        logger.info(f"成功解析招聘需求文档: 职位={parsed_content.get('position_name', '未知')}")
+        
+        return parsed_content
+        
+    except Exception as e:
+        logger.error(f"解析招聘需求文档失败: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"解析招聘需求文档失败: {str(e)}"
+        )
 
 @router.post("", response_model=Job, status_code=status.HTTP_201_CREATED)
 def create_job_requirement(
@@ -264,7 +305,7 @@ async def upload_job_requirement(
     *,
     db: Session = Depends(get_db),
     file: UploadFile = File(...),
-    position_name: str = Form(...),
+    position_name: Optional[str] = Form(None),
     department: Optional[str] = Form(None)
 ) -> Any:
     """
@@ -282,15 +323,20 @@ async def upload_job_requirement(
         ai_service = get_ai_service()
         
         # 解析文档内容
-        parsed_content = ai_service.parse_resume(content_str)  # 复用简历解析功能
+        parsed_content = ai_service.parse_job_requirement(content_str)
         
         # 提取职位标签
-        tags = ai_service.extract_job_tags(content_str)
+        job_description = f"{parsed_content.get('position_name', '')}\n{parsed_content.get('responsibilities', '')}\n{parsed_content.get('requirements', '')}"
+        tags = ai_service.extract_job_tags(job_description)
+        
+        # 使用解析结果或表单提供的值
+        job_position_name = position_name or parsed_content.get("position_name", "未命名职位")
+        job_department = department or parsed_content.get("department", "")
         
         # 创建招聘需求
         job = JobRequirement(
-            position_name=position_name,
-            department=department,
+            position_name=job_position_name,
+            department=job_department,
             responsibilities=parsed_content.get("responsibilities", ""),
             requirements=parsed_content.get("requirements", ""),
             salary_range=parsed_content.get("salary_range", ""),
