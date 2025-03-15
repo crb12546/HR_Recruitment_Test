@@ -15,52 +15,29 @@
 - Element Plus 2.2+
 - 其他依赖见 `frontend/package.json`
 
-## 开发环境部署
+## 部署方式
 
-### 1. 克隆代码库
-```bash
-git clone https://github.com/crb12546/HR_Recruitment_Test.git
-cd HR_Recruitment_Test
-```
+HR招聘系统支持两种部署方式：
+1. 本地部署（适用于开发和测试环境）
+2. 生产环境部署（使用Docker或云服务）
 
-### 2. 后端部署
-```bash
-cd backend
+## 本地部署
 
-# 创建Python 3.9虚拟环境
-python3.9 -m venv venv_py39
-source venv_py39/bin/activate
+详细的本地部署指南请参考 [本地部署文档](./local_deployment.md)。
 
-# 安装依赖
-pip install -r requirements.txt
+### 本地部署概述
 
-# 配置环境变量
-cp .env.example .env
-# 编辑.env文件，设置必要的环境变量
+1. 准备环境：
+   - 安装Python 3.9+
+   - 安装MySQL 8.0+
+   - 配置数据库和环境变量
 
-# 初始化数据库
-python setup_db.py
+2. 启动服务：
+   - 使用`start_local_deployment.sh`脚本一键启动
+   - 或手动启动后端和前端服务
 
-# 启动后端服务
-./start_backend.sh
-```
-
-### 3. 前端部署
-```bash
-cd frontend
-
-# 安装依赖
-npm install --legacy-peer-deps
-
-# 启动前端服务
-./start_frontend.sh
-```
-
-### 4. 使用开发环境启动脚本
-```bash
-# 在项目根目录下
-./start_dev_environment.sh
-```
+3. 外部访问：
+   - 使用ngrok映射本地服务到公网
 
 ## 生产环境部署
 
@@ -176,3 +153,10 @@ alembic upgrade head
    - 清除node_modules并重新安装
    - 使用 `--legacy-peer-deps` 解决依赖冲突
    - 检查Node.js版本兼容性
+
+## 文档历史
+
+| 版本 | 日期 | 变更说明 | 作者 |
+|------|------|---------|------|
+| 1.0 | 2025-03-11 | 初始版本 | Devin |
+| 1.1 | 2025-03-15 | 添加本地部署引用 | Devin |
