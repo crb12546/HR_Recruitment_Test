@@ -15,6 +15,7 @@
     button { background-color: #4CAF50; color: white; border: none; padding: 10px 20px; text-align: center; 
              text-decoration: none; display: inline-block; font-size: 16px; margin: 10px 0; cursor: pointer; border-radius: 4px; }
   </style>
+  <script src="config.js"></script>
 </head>
 <body>
   <div class="header">
@@ -62,7 +63,8 @@
   <script>
     function checkBackend() {
       document.getElementById('status').innerHTML = '正在连接后端服务...';
-      fetch('http://localhost:8001/')
+      const apiUrl = window.API_URL || 'http://localhost:8001';
+      fetch(`${apiUrl}/`)
         .then(response => response.json())
         .then(data => {
           document.getElementById('status').innerHTML = 
