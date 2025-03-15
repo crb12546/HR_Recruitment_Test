@@ -8,7 +8,7 @@
 
 ### 环境准备
 
-1. 确保已安装Python 3.12及相关依赖：
+1. 确保已安装Python 3.9及相关依赖：
    ```bash
    cd backend
    pip install -r requirements.txt

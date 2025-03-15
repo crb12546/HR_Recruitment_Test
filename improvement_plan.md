@@ -34,8 +34,8 @@
 
 - [x] 使用Python 3.9虚拟环境解决FastAPI兼容性问题
 - [x] 使用`--legacy-peer-deps`解决npm依赖冲突
-- [ ] 更新`package.json`以使用兼容的依赖版本
-- [ ] 完善Python依赖管理，使用`requirements.txt`
+- [x] 更新`package.json`以使用兼容的依赖版本
+- [x] 完善Python依赖管理，使用`requirements.txt`
 
 ### 2. 后端改进
 
