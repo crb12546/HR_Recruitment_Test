@@ -19,7 +19,6 @@ class UserCreate(UserBase):
 
 class UserUpdate(BaseModel):
     """更新用户模型"""
-    username: Optional[str] = Field(None, description="用户名")
     email: Optional[EmailStr] = Field(None, description="邮箱")
     full_name: Optional[str] = Field(None, description="全名")
     password: Optional[str] = Field(None, description="密码")
@@ -34,7 +33,7 @@ class UserInDB(UserBase):
     updated_at: datetime
     
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class User(UserBase):
     """用户响应模型"""
@@ -43,13 +42,4 @@ class User(UserBase):
     updated_at: datetime
     
     class Config:
-        orm_mode = True
-
-class Token(BaseModel):
-    """令牌模型"""
-    access_token: str
-    token_type: str
-
-class TokenPayload(BaseModel):
-    """令牌载荷模型"""
-    sub: Optional[int] = None
+        from_attributes = True
