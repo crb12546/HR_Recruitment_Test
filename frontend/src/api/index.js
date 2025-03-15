@@ -5,7 +5,7 @@ import axios from 'axios'
 
 // 创建axios实例
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8001/api',
+  baseURL: 'http://localhost:8001/api/v1',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ apiClient.interceptors.request.use(
 // 响应拦截器
 apiClient.interceptors.response.use(
   response => {
-    return response.data
+    return response
   },
   error => {
     // 处理错误响应
