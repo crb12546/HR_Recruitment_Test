@@ -13,12 +13,14 @@ HR招聘系统采用前后端分离架构：
 ## 环境要求
 
 ### 后端环境要求
-- Python 3.9
+- Python 3.9（推荐，已解决与FastAPI/Pydantic V2的兼容性问题）
 - 虚拟环境工具 (venv)
 - FastAPI 0.115.11
 - SQLAlchemy 2.0.7
 - Pydantic 2.10.6
 - 其他依赖见 `backend/requirements.txt`
+
+> **注意**：由于Pydantic V2与Python 3.12存在兼容性问题，建议使用Python 3.9版本进行开发。
 
 ### 前端环境要求
 - Node.js 14+
