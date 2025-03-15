@@ -32,6 +32,18 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
+    path: '/jobs/create',
+    name: 'JobCreate',
+    component: () => import('../views/job/JobRequirementEdit.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/jobs/:id/edit',
+    name: 'JobEdit',
+    component: () => import('../views/job/JobRequirementEdit.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
     path: '/jobs/:id',
     name: 'JobDetail',
     component: () => import('../views/job/JobDetail.vue'),

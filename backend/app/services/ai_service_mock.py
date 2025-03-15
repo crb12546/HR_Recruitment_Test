@@ -140,6 +140,36 @@ class AIService:
         
         return result
     
+    def parse_job_requirement(self, document_content: str) -> Dict[str, Any]:
+        """解析招聘需求文档（模拟实现）"""
+        logger.info("模拟解析招聘需求文档")
+        
+        # 如果文档内容为空，返回空结果
+        if not document_content:
+            return {}
+        
+        # 模拟解析结果
+        parsed_content = {
+            "position_name": "前端开发工程师",
+            "department": "技术部",
+            "responsibilities": "1. 负责公司产品的前端开发，包括页面设计和实现\n2. 与后端开发人员协作，确保前后端接口正常对接\n3. 优化前端性能，提升用户体验\n4. 参与产品需求讨论，提供技术可行性建议",
+            "requirements": "1. 熟练掌握HTML、CSS、JavaScript等前端技术\n2. 熟悉Vue.js或React等前端框架\n3. 了解前端工程化和模块化开发\n4. 具有良好的团队协作能力和沟通能力\n5. 有2年以上相关工作经验",
+            "salary_range": "15k-25k",
+            "location": "北京"
+        }
+        
+        # 根据文档内容调整解析结果
+        if "Java" in document_content:
+            parsed_content["position_name"] = "Java开发工程师"
+            parsed_content["responsibilities"] = "1. 负责公司核心业务系统的设计和开发\n2. 参与系统架构设计和技术选型\n3. 解决系统运行中的技术问题\n4. 编写技术文档"
+            parsed_content["requirements"] = "1. 熟练掌握Java编程语言和常用框架\n2. 熟悉Spring、SpringBoot等框架\n3. 了解MySQL等关系型数据库\n4. 具有良好的团队协作能力和沟通能力\n5. 有3年以上相关工作经验"
+        elif "Python" in document_content:
+            parsed_content["position_name"] = "Python开发工程师"
+            parsed_content["responsibilities"] = "1. 负责公司数据处理系统的开发和维护\n2. 设计和实现高效的数据处理算法\n3. 参与AI模型的集成和应用\n4. 编写技术文档"
+            parsed_content["requirements"] = "1. 熟练掌握Python编程语言和常用库\n2. 熟悉FastAPI、Django等Web框架\n3. 了解数据处理和机器学习相关技术\n4. 具有良好的团队协作能力和沟通能力\n5. 有2年以上相关工作经验"
+        
+        return parsed_content
+    
     def generate_recruitment_plan(self, job_requirement: Dict[str, Any], matched_resumes: List[Dict[str, Any]]) -> Dict[str, Any]:
         """生成招聘方案（模拟实现）"""
         logger.info("模拟生成招聘方案")

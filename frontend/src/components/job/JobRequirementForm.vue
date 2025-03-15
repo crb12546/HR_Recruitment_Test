@@ -84,6 +84,7 @@
 <script>
 import { ref, reactive, nextTick } from 'vue';
 import { ElMessage } from 'element-plus';
+import { parseJobRequirementDocument, createJobRequirement } from '@/api/job';
 
 export default {
   name: 'JobRequirementForm',
@@ -216,10 +217,7 @@ export default {
       
       try {
         // 调用API保存招聘需求
-        // const response = await api.saveJobRequirement(parseResult.value);
-        
-        // 模拟API响应
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        const response = await createJobRequirement(parseResult.value);
         
         ElMessage.success('招聘需求保存成功');
         

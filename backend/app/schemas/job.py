@@ -41,3 +41,13 @@ class JobInDB(JobBase):
 class Job(JobInDB):
     """招聘需求响应模型"""
     pass
+
+class JobParseResult(BaseModel):
+    """招聘需求解析结果模型"""
+    position_name: Optional[str] = Field(None, description="职位名称")
+    department: Optional[str] = Field(None, description="部门")
+    responsibilities: Optional[str] = Field(None, description="职责描述")
+    requirements: Optional[str] = Field(None, description="职位要求")
+    salary_range: Optional[str] = Field(None, description="薪资范围")
+    location: Optional[str] = Field(None, description="工作地点")
+    tags: Optional[List[str]] = Field(None, description="职位标签")
